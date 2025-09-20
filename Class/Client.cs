@@ -5,7 +5,7 @@ public class Client
     public string nameClient {get; set;}
     public int idClient {get; set;}
     public int ageClient {get; set;}
-    public int cellPhoneClient {get; set;}
+    public long cellPhoneClient {get; set;}
 
     public Client()
     {
@@ -52,7 +52,7 @@ public class Client
         Console.WriteLine("Ingrese la edad del cliente: ");
         int ageClient =  Convert.ToInt32(Console.ReadLine());
         Console.WriteLine("Ingrese el numero de telefono del cliente: ");
-        int cellPhoneClient = Convert.ToInt32(Console.ReadLine());
+        long cellPhoneClient = Convert.ToInt64(Console.ReadLine());
 
         Client newUserClient = new Client
         {

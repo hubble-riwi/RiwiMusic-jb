@@ -8,6 +8,7 @@ public class Ticket
     public string nameConcertTicket {get; set;}
     public DateTime dateConcertTicket { get; set; }
     public int idClientTicket {get; set;}
+    
     public string nameClientTicket {get; set;}
     public DateTime dateBuyTicket {get; set;}
     public double priceTicket {get; set;}

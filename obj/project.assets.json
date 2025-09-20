@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Usuario\\Desktop\\Programacion\\RIDER\\RiwiMusic completo\\sprint-3-jb\\RiwiMusic.csproj",
+      "projectUniqueName": "C:\\Users\\Usuario\\Desktop\\Programacion\\RIDER\\RiwiMusic completo\\sprint-3-jb-main\\RiwiMusic.csproj",
       "projectName": "RiwiMusic",
-      "projectPath": "C:\\Users\\Usuario\\Desktop\\Programacion\\RIDER\\RiwiMusic completo\\sprint-3-jb\\RiwiMusic.csproj",
+      "projectPath": "C:\\Users\\Usuario\\Desktop\\Programacion\\RIDER\\RiwiMusic completo\\sprint-3-jb-main\\RiwiMusic.csproj",
       "packagesPath": "C:\\Users\\Usuario\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Usuario\\Desktop\\Programacion\\RIDER\\RiwiMusic completo\\sprint-3-jb\\obj\\",
+      "outputPath": "C:\\Users\\Usuario\\Desktop\\Programacion\\RIDER\\RiwiMusic completo\\sprint-3-jb-main\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Usuario\\AppData\\Roaming\\NuGet\\NuGet.Config"
