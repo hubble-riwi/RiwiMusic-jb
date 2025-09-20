@@ -3,6 +3,7 @@ namespace RiwiMusic.Class;
 public class Ticket
 {
     public int idTicket { get; set; }
+    public int idConcertTicket { get; set; }
     public string nameConcertTicket {get; set;}
     public DateTime dateConcertTicket { get; set; }
     public int idClientTicket {get; set;}
@@ -15,7 +16,7 @@ public class Ticket
         
     }
 
-    public void menuTicket(Dictionary<int, Ticket>  tickets)
+    public void menuTicket(Dictionary<int, Ticket> tickets, Dictionary<int, Concert> concerts, Dictionary<int, Client> clients)
     {
         bool returnMenuTicket = true;
         while (returnMenuTicket)
@@ -26,7 +27,7 @@ public class Ticket
         switch (optionMenuClient)
         {
             case 1:
-                registerTicket(tickets);
+                registerTicket(tickets, concerts, clients);
                 break;
             case 2:
                 viewTicket(tickets);
@@ -46,33 +47,56 @@ public class Ticket
     }
 
 
-    public void registerTicket(Dictionary<int, Ticket>  tickets)
+    public void registerTicket(Dictionary<int, Ticket> tickets, Dictionary<int, Concert> concerts, Dictionary<int, Client> clients)
     {
-        Console.WriteLine("Ingrese el nombre del cliente: ");
-        string nameClient = Console.ReadLine();
-        Console.WriteLine("Ingrese el numero de identidficacion del cliente: ");
-        int idClient = Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("Ingrese la edad del cliente: ");
-        int ageClient =  Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("Ingrese el numero de telefono del cliente: ");
-        int cellPhoneClient = Convert.ToInt32(Console.ReadLine());
-
-        Client newUserClient = new Client
+        Console.WriteLine("Ingrese el id del concierto: ");
+        int idConcert = Convert.ToInt32(Console.ReadLine());
+        if (!concerts.ContainsKey(idConcert))
         {
-            nameClient = nameClient,
-            idClient = idClient,
-            ageClient = ageClient,
-            cellPhoneClient = cellPhoneClient
+            Console.WriteLine("El concierto con ese ID no existe.");
+            return;
+        }
+        
+        Console.WriteLine("Ingrese el numero de identificacion del cliente: ");
+        int idClient = Convert.ToInt32(Console.ReadLine());
+        if (!clients.ContainsKey(idClient))
+        {
+            Console.WriteLine("El cliente con ese ID no existe.");
+            return;
+        }
+        
+        Concert concert = concerts[idConcert];
+        Client client = clients[idClient];
+        Ticket newTicket = new Ticket
+        {
+            idTicket = tickets.Count + 1,
+            idConcertTicket = concert.idConcert,
+            nameConcertTicket = concert.nameConcert,
+            dateConcertTicket = concert.dateConcert,
+            idClientTicket = client.idClient,
+            nameClientTicket = client.nameClient,
+            dateBuyTicket = DateTime.Now,
+            priceTicket = concert.priceConcert
         };
-        clients.Add(idClient, newUserClient);
+        
+        tickets.Add(newTicket.idTicket, newTicket);
+
+        Console.WriteLine("¡Ticket registrado exitosamente!");
     }
 
+
     public void viewTicket(Dictionary<int, Ticket>  tickets)
-    {   Console.WriteLine("DATOS  DEL CLIENTE");
+    {   Console.WriteLine("DATOS  DEL BOLETO");
         Console.WriteLine("------------------------------");
-        foreach (KeyValuePair<int, Client> client in clients)
+        foreach (KeyValuePair<int, Ticket> ticketEntry in tickets)
         {
-            Console.WriteLine($" Nombre: {client.Value.nameClient} \n Documento: {client.Value.idClient} \n Edad: {client.Value.ageClient} \n numero: {client.Value.cellPhoneClient} ");
+            Ticket ticket = ticketEntry.Value;
+            Console.WriteLine($"ID del Ticket: {ticket.idTicket}");
+            Console.WriteLine($"Concierto: {ticket.nameConcertTicket} + Id: {ticket.idConcertTicket}");
+            Console.WriteLine($"Fecha del concierto: {ticket.dateConcertTicket}");
+            Console.WriteLine($"Cliente: {ticket.nameClientTicket} +  Id: {ticket.idClientTicket}");
+            Console.WriteLine($"Fecha de compra: {ticket.dateBuyTicket}");
+            Console.WriteLine($"Precio del boleto: {ticket.priceTicket}");
             Console.WriteLine("------------------------------");
 
         }
@@ -80,62 +104,55 @@ public class Ticket
 
     public void updateTicket(Dictionary<int, Ticket>  tickets)
     {
-        Console.WriteLine("Ingrese el id del cliente que quiere editar: ");
-        int idToUpdate = Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("Ingrese que desea editar: \n 1. Nombre \n 2. id\n 3. edad \n 4. numero de telefono");
-        int updateData = Convert.ToInt32(Console.ReadLine());
-        switch (updateData) 
+        Console.WriteLine("Ingrese el ID del ticket que desea editar: ");
+        int idTicket = Convert.ToInt32(Console.ReadLine());
+
+        if (!tickets.ContainsKey(idTicket))
+        {
+            Console.WriteLine("El ticket con ese ID no existe.");
+            return;
+        }
+
+        Ticket ticketToEdit = tickets[idTicket];
+
+        Console.WriteLine("¿Qué desea editar?");
+        Console.WriteLine("1. Fecha de compra");
+        Console.WriteLine("2. Precio del boleto");
+        Console.WriteLine("Seleccione una opción (1-2): ");
+        int choice = Convert.ToInt32(Console.ReadLine());
+
+        switch (choice)
         {
             case 1:
-                Console.WriteLine("Ingrese el nuevo nombre del cliente: ");
-                string newName = Console.ReadLine();
-                clients[idToUpdate].nameClient = newName;
-                Console.WriteLine("----------------------------------------");
-                Console.WriteLine("Cliente actualizado con exito ");
-                Console.WriteLine("----------------------------------------");
-
+                Console.WriteLine("Ingrese la nueva fecha de compra (yyyy-MM-dd): ");
+                ticketToEdit.dateBuyTicket = Convert.ToDateTime(Console.ReadLine());
                 break;
+
             case 2:
-                Console.WriteLine("Ingrese el nuevo id del cliente: ");
-                int newId = Convert.ToInt32(Console.ReadLine());
-                clients[idToUpdate].idClient = newId;
-                Console.WriteLine("----------------------------------------");
-                Console.WriteLine("Cliente actualizado con exito ");
-                Console.WriteLine("----------------------------------------");
-
+                Console.WriteLine("Ingrese el nuevo precio del boleto: ");
+                ticketToEdit.priceTicket = Convert.ToDouble(Console.ReadLine());
                 break;
-            case 3:
-                Console.WriteLine("Ingrese la nueva edad del cliente: ");
-                int newAge = Convert.ToInt32(Console.ReadLine());
-                clients[idToUpdate].ageClient = newAge;
-                Console.WriteLine("----------------------------------------");
-                Console.WriteLine("Cliente actualizado con exito ");
-                Console.WriteLine("----------------------------------------");
 
-                break;
-            case 4:
-                Console.WriteLine("Ingrese el nuevo numero del cliente: ");
-                int newNumber = Convert.ToInt32(Console.ReadLine());
-                clients[idToUpdate].cellPhoneClient = newNumber;
-                Console.WriteLine("----------------------------------------");
-                Console.WriteLine("Cliente actualizado con exito ");
-                Console.WriteLine("----------------------------------------");
-
-                break;
+            default:
+                Console.WriteLine("Opción no válida.");
+                return;
         }
+        
+        tickets[idTicket] = ticketToEdit;
+        Console.WriteLine("Ticket actualizado correctamente.");
     }
 
     public void deleteTicket(Dictionary<int, Ticket>  tickets)
     {
-        Console.WriteLine("Ingrese el id del cliente que desea eliminar: ");
-        int idToDelete = Convert.ToInt32(Console.ReadLine());
-        Console.WriteLine("Seguro que quiere eliminar a: " + clients[idToDelete].nameClient + " si/no");
-        string secureDeleteClient = Console.ReadLine();
-        if (secureDeleteClient == "si")
+        Console.WriteLine("Ingrese el ID del boleto que desea eliminar: ");
+        int idTicket = Convert.ToInt32(Console.ReadLine());
+        Console.WriteLine("Seguro que quiere eliminar a: " + tickets[idTicket].idTicket + " si/no");
+        string secureDeleteTicket = Console.ReadLine();
+        if (secureDeleteTicket == "si")
         {
-            clients.Remove(idToDelete);
+            tickets.Remove(idTicket);
             Console.WriteLine("----------------------------------------");
-            Console.WriteLine("Cliente eliminado con exito ");
+            Console.WriteLine("Boleto eliminado con exito ");
             Console.WriteLine("----------------------------------------");
             
         }
