@@ -2,6 +2,7 @@ namespace RiwiMusic.Class;
 
 public class Ticket
 {
+
     public int idTicket { get; set; }
     public int idConcertTicket { get; set; }
     public string nameConcertTicket {get; set;}
@@ -157,4 +158,8 @@ public class Ticket
             
         }
     }
+
+    
+   
+
 }
